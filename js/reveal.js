@@ -2986,16 +2986,23 @@
 	 * @return {Object} containing four booleans: left/right/up/down
 	 */
 	function availableRoutes() {
-		console.log ("HORIZONTAL_SLIDES_SELECTOR: " + HORIZONTAL_SLIDES_SELECTOR);
 		var horizontalSlides = dom.wrapper.querySelectorAll( HORIZONTAL_SLIDES_SELECTOR ),
 			verticalSlides = dom.wrapper.querySelectorAll( VERTICAL_SLIDES_SELECTOR );
+
 		var rightSlide = 0;
+		var currentSlide = 0;
 		var leftSlide = 0;
 		var childrenOfRightSlide = 1;
 		var childrenOfLeftSlide = 1;
 
+		var leftallowed = true;
+		var rightallowed = true;
+		var upallowed = true;
+		var downallowed = true;
+
 		for (var i = 0; i < horizontalSlides.length; i++){
 			if (horizontalSlides[i].classList.contains("present")) {
+				currentSlide = i;
 				if (i+1 >= horizontalSlides.length) {
 					rightSlide = -1;
 				} else {
@@ -3025,11 +3032,30 @@
 			childrenOfLeftSlide = 0;
 		}
 
+		if (horizontalSlides[currentSlide].getElementsByTagName("section")[indexv]) {
+			if(horizontalSlides[currentSlide].getElementsByTagName("section")[indexv]) {
+				var directionsClasses = horizontalSlides[currentSlide].getElementsByTagName("section")[indexv].classList;
+				if (directionsClasses.contains("no-left")) {
+					leftallowed = false;
+				}
+				if (directionsClasses.contains("no-right")) {
+					rightallowed = false;
+				}
+				if (directionsClasses.contains("no-up")) {
+					upallowed = false;
+				}
+				if (directionsClasses.contains("no-down")) {
+					downallowed = false;
+				}					
+			}
+		}
+
+
 		var routes = {
-			left: (indexh > 0 && indexv < childrenOfLeftSlide) || config.loop,
-			right: (indexh < horizontalSlides.length - 1 && indexv < childrenOfRightSlide) || config.loop,
-			up: indexv > 0,
-			down: indexv < verticalSlides.length - 1 
+			left: leftallowed && ((indexh > 0 && indexv < childrenOfLeftSlide) || config.loop),
+			right: rightallowed && ((indexh < horizontalSlides.length - 1 && indexv < childrenOfRightSlide) || config.loop),
+			up: upallowed && (indexv > 0),
+			down: downallowed && (indexv < verticalSlides.length - 1) 
 		};
 
 		// reverse horizontal controls for rtl
@@ -3843,15 +3869,13 @@
 	}
 
 	function navigateRight() {
-		console.log("h: " + indexh);
-		console.log("v: " + indexv);
-
 		// Reverse for RTL
 		if( config.rtl ) {
 			if( ( isOverview() || previousFragment() === false ) && availableRoutes().right ) {
 				slide( indexh - 1, indexv);
 			}
 		}
+
 		// Normal navigation
 		else if( ( isOverview() || nextFragment() === false ) && availableRoutes().right ) {
 			slide( indexh + 1, indexv);
