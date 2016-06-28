@@ -3915,10 +3915,15 @@
 			console.log(downN);
 			console.log(leftN);
 		} else {
-			var leftN = TOPICS[NAV_SEQ[cur[0]+"/"+cur[1]][3]][parseInt(arr[0])+2];
-			var rightN = TOPICS[NAV_SEQ[cur[0]+"/"+cur[1]][1]][parseInt(arr[0])+1];
-			var upN = TOPICS[NAV_SEQ[cur[0]+"/"+cur[1]][0]][parseInt(arr[0])+1];
-			var downN = TOPICS[NAV_SEQ[cur[0]+"/"+cur[1]][2]][parseInt(arr[0])+1];
+			// 3 => left
+			var leftN = TOPICS[NAV_SEQ[cur[0]+"/"+cur[1]][3]][parseInt(arr[0])+1];
+			leftN = [leftN[0], leftN[2]];
+			var rightN = TOPICS[NAV_SEQ[cur[0]+"/"+cur[1]][1]][parseInt(arr[0])];
+			rightN = [rightN[0], rightN[2]];
+			var upN = TOPICS[NAV_SEQ[cur[0]+"/"+cur[1]][0]][parseInt(arr[0])];
+			upN = [upN[0], upN[2]];
+			var downN = TOPICS[NAV_SEQ[cur[0]+"/"+cur[1]][2]][parseInt(arr[0])];
+			downN = [downN[0], downN[2]];
 		}
 
 		var oldSeq = NAV_SEQ[cur[0]+"/"+cur[1]];
@@ -4043,8 +4048,18 @@
 		console.log(leftN);
 
 		// change images
+		document.getElementById("header1img").src="previews/" + upN[0] + newSeq[0] + ".png";
+		document.getElementById("right1img").src="previews/" + rightN[0] + newSeq[1] + ".png";
+		document.getElementById("footer1img").src="previews/" + downN[0] + newSeq[2] + ".png";
+		document.getElementById("left1img").src="previews/" + leftN[0] + newSeq[3] + ".png";
 
 		// change links
+		document.getElementById("header1").href="index.html#/" + upN[0] + "/" + upN[1];
+		document.getElementById("right1").href="index.html#/" + rightN[0] + "/" + rightN[1];
+		document.getElementById("footer1").href="index.html#/" + downN[0] + "/" + downN[1];
+		document.getElementById("left1").href="index.html#/" + leftN[0] + "/" + leftN[1];
+
+
 
 		// // Reverse for RTL
 		// if( config.rtl ) {
