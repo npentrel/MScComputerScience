@@ -28,6 +28,49 @@
 	// The reveal.js version
 	var VERSION = '3.3.0';
 
+	var TOPICS = {};
+	TOPICS["t"] = ["0/0", "1/3", "2/1", "3/2", "4/3", "5/4", "6/2", "7/4", "8/1"];
+	TOPICS["b"] = ["0/0", "1/1", "2/3", "3/4", "4/2", "5/3", "6/4", "7/1", "8/2"];
+	TOPICS["p"] = ["0/0", "1/4", "2/2", "3/1", "4/4", "5/1", "6/3", "7/2", "8/3"];
+	TOPICS["v"] = ["0/0", "1/2", "2/4", "3/3", "4/1", "5/2", "6/1", "7/3", "8/4"];
+
+	// up, right, bottom, left
+	var NAV_SEQ = {};
+	NAV_SEQ["1/1"] = ["v", "t", "b", "p"];
+	NAV_SEQ["1/2"] = ["t", "p", "v", "b"];
+	NAV_SEQ["1/3"] = ["b", "t", "p", "v"];
+	NAV_SEQ["1/4"] = ["p", "v", "t", "b"];
+	NAV_SEQ["2/1"] = ["p", "v", "b", "t"];
+	NAV_SEQ["2/2"] = ["t", "b", "v", "p"];
+	NAV_SEQ["2/3"] = ["v", "t", "b", "p"];
+	NAV_SEQ["2/4"] = ["v", "b", "p", "t"];
+	NAV_SEQ["3/1"] = ["b", "p", "t", "v"];
+	NAV_SEQ["3/2"] = ["t", "v", "b", "p"];
+	NAV_SEQ["3/3"] = ["v", "b", "t", "p"];
+	NAV_SEQ["3/4"] = ["t", "p", "v", "b"];
+	NAV_SEQ["4/1"] = ["v", "t", "b", "p"];
+	NAV_SEQ["4/2"] = ["p", "b", "v", "t"];
+	NAV_SEQ["4/3"] = ["b", "v", "t", "p"];
+	NAV_SEQ["4/4"] = ["t", "p", "b", "v"];
+	NAV_SEQ["5/1"] = ["p", "t", "b", "v"];
+	NAV_SEQ["5/2"] = ["b", "p", "v", "t"];
+	NAV_SEQ["5/3"] = ["p", "t", "b", "v"];
+	NAV_SEQ["5/4"] = ["t", "v", "p", "b"];
+	NAV_SEQ["6/1"] = ["p", "b", "v", "t"];
+	NAV_SEQ["6/2"] = ["v", "b", "t", "p"];
+	NAV_SEQ["6/3"] = ["t", "p", "v", "b"];
+	NAV_SEQ["6/4"] = ["b", "t", "p", "v"];
+	NAV_SEQ["7/1"] = ["b", "v", "p", "t"];
+	NAV_SEQ["7/2"] = ["p", "b", "v", "t"];
+	NAV_SEQ["7/3"] = ["v", "p", "t", "b"];
+	NAV_SEQ["7/4"] = ["b", "v", "p", "t"];
+	NAV_SEQ["8/1"] = ["t", "b", "p", "v"];
+	NAV_SEQ["8/2"] = ["p", "v", "t", "b"];
+	NAV_SEQ["8/3"] = ["b", "t", "p", "v"];
+	NAV_SEQ["8/4"] = ["v", "p", "t", "b"];
+
+
+
 	var SLIDES_SELECTOR = '.slides section',
 		HORIZONTAL_SLIDES_SELECTOR = '.slides>section',
 		VERTICAL_SLIDES_SELECTOR = '.slides>section.present>section',
@@ -36,7 +79,6 @@
 
 		// Configuration defaults, can be overridden at initialization time
 		config = {
-
 			// The "normal" size of the presentation, aspect ratio will be preserved
 			// when the presentation is scaled to fit different resolutions
 			width: 960,
@@ -3854,50 +3896,207 @@
 	}
 
 	function navigateLeft() {
+		console.log("current url: " + window.location.href);
+		var cur = window.location.href.match(/(\d+)/g);
+		var arr = (document.getElementById("left1").href).match(/(\d+)/g);
+		console.log(document.getElementById("left1").href);
+		slide(arr[0],arr[1]);
 
-		// Reverse for RTL
-		if( config.rtl ) {
-			if( ( isOverview() || nextFragment() === false ) && availableRoutes().left ) {
-				slide( indexh + 1, indexv);
+		// replace
+		if (cur[0] == arr[0]) {
+			// 3 => left
+			var leftN = TOPICS[NAV_SEQ[cur[0]+"/"+cur[1]][3]][parseInt(arr[0])+1];
+			leftN = [leftN[0], leftN[2]];
+			var rightN = (document.getElementById("right1").href).match(/(\d+)/g);
+			var upN = (document.getElementById("header1").href).match(/(\d+)/g);
+			var downN = (document.getElementById("footer1").href).match(/(\d+)/g);
+			console.log(upN);
+			console.log(rightN);
+			console.log(downN);
+			console.log(leftN);
+		} else {
+			var leftN = TOPICS[NAV_SEQ[cur[0]+"/"+cur[1]][3]][parseInt(arr[0])+2];
+			var rightN = TOPICS[NAV_SEQ[cur[0]+"/"+cur[1]][1]][parseInt(arr[0])+1];
+			var upN = TOPICS[NAV_SEQ[cur[0]+"/"+cur[1]][0]][parseInt(arr[0])+1];
+			var downN = TOPICS[NAV_SEQ[cur[0]+"/"+cur[1]][2]][parseInt(arr[0])+1];
+		}
+
+		var oldSeq = NAV_SEQ[cur[0]+"/"+cur[1]];
+		var tnext = [0, 0];
+		var vnext = [0, 0];
+		var bnext = [0, 0];
+		var pnext = [0, 0];
+		if (oldSeq[0] == "p") {
+			pnext = upN;			
+		}  
+		if (oldSeq[0] == "v") {
+			vnext = upN;			
+		}  
+		if (oldSeq[0] == "t") {
+			tnext = upN;			
+		}  
+		if (oldSeq[0] == "b") {
+			bnext = upN;			
+		}  
+
+		if (oldSeq[1] == "p") {
+			pnext = rightN;			
+		}  
+		if (oldSeq[1] == "v") {
+			vnext = rightN;			
+		}  
+		if (oldSeq[1] == "t") {
+			tnext = rightN;			
+		}  
+		if (oldSeq[1] == "b") {
+			bnext = rightN;			
+		}  
+
+		if (oldSeq[2] == "p") {
+			pnext = downN;			
+		}  
+		if (oldSeq[2] == "v") {
+			vnext = downN;			
+		}  
+		if (oldSeq[2] == "t") {
+			tnext = downN;			
+		}  
+		if (oldSeq[2] == "b") {
+			bnext = downN;			
+		}  
+	
+		if (oldSeq[3] == "p") {
+			pnext = leftN;			
+		}  
+		if (oldSeq[3] == "v") {
+			vnext = leftN;			
+		}  
+		if (oldSeq[3] == "t") {
+			tnext = leftN;			
+		}  
+		if (oldSeq[3] == "b") {
+			bnext = leftN;			
+		}  
+
+		// pseudo random shuffle
+		var newSeq = NAV_SEQ[arr[0]+"/"+arr[1]];
+		console.log(newSeq);
+		if (newSeq[0] == "t") {
+			var upN = tnext;
+		} else {
+			if (newSeq[0] == "v") {
+				var upN = vnext;
+			} else {
+				if (newSeq[0] == "b") {
+					var upN = bnext;
+				} else {
+					var upN = pnext; // photo
+				}
 			}
 		}
-		// Normal navigation
-		else if( ( isOverview() || previousFragment() === false ) && availableRoutes().left ) {
-			slide( indexh - 1, indexv);
+
+		if (newSeq[1] == "t") {
+			var rightN = tnext;
+		} else {
+			if (newSeq[1] == "v") {
+				var rightN = vnext;
+			} else {
+				if (newSeq[1] == "b") {
+					var rightN = bnext;
+				} else {
+					var rightN = pnext; // photo
+				}
+			}
 		}
+
+		if (newSeq[2] == "t") {
+			var downN = tnext;
+		} else {
+			if (newSeq[2] == "v") {
+				var downN = vnext;
+			} else {
+				if (newSeq[2] == "b") {
+					var downN = bnext;
+				} else {
+					var downN = pnext; // photo
+				}
+			}
+		}
+
+		if (newSeq[3] == "t") {
+			var leftN = tnext;
+		} else {
+			if (newSeq[3] == "v") {
+				var leftN = vnext;
+			} else {
+				if (newSeq[3] == "b") {
+					var leftN = bnext;
+				} else {
+					var leftN = pnext; // photo
+				}
+			}
+		}
+		console.log("NEW");
+		console.log(upN);
+		console.log(rightN);
+		console.log(downN);
+		console.log(leftN);
+
+		// change images
+
+		// change links
+
+		// // Reverse for RTL
+		// if( config.rtl ) {
+		// 	if( ( isOverview() || nextFragment() === false ) && availableRoutes().left ) {
+		// 		slide( indexh + 1, indexv);
+		// 	}
+		// }
+		// // Normal navigation
+		// else if( ( isOverview() || previousFragment() === false ) && availableRoutes().left ) {
+		// 	slide( indexh - 1, indexv);
+		// }
 
 	}
 
 	function navigateRight() {
-		// Reverse for RTL
-		if( config.rtl ) {
-			if( ( isOverview() || previousFragment() === false ) && availableRoutes().right ) {
-				slide( indexh - 1, indexv);
-			}
-		}
+		var arr = (document.getElementById("right1").href).match(/(\d+)/g);
+		console.log(document.getElementById("right1").href);
+		slide(arr[0],arr[1]);
 
-		// Normal navigation
-		else if( ( isOverview() || nextFragment() === false ) && availableRoutes().right ) {
-			slide( indexh + 1, indexv);
-		}
+		// Reverse for RTL
+		// if( config.rtl ) {
+		// 	if( ( isOverview() || previousFragment() === false ) && availableRoutes().right ) {
+		// 		slide( indexh - 1, indexv);
+		// 	}
+		// }
+
+		// // Normal navigation
+		// else if( ( isOverview() || nextFragment() === false ) && availableRoutes().right ) {
+		// 	slide( indexh + 1, indexv);
+		// }
 
 	}
 
 	function navigateUp() {
-
-		// Prioritize hiding fragments
-		if( ( isOverview() || previousFragment() === false ) && availableRoutes().up ) {
-			slide( indexh, indexv - 1 );
-		}
-
+		console.log("current url: " + window.location.href);
+		var arr = (document.getElementById("header1").href).match(/(\d+)/g);
+		console.log(document.getElementById("header1").href);
+		slide(arr[0],arr[1]);
+		// if( ( isOverview() || previousFragment() === false ) && availableRoutes().up ) {
+		// 	slide( indexh, indexv - 1 );
+		// }
 	}
 
 	function navigateDown() {
+		var arr = (document.getElementById("footer1").href).match(/(\d+)/g);
+		console.log(document.getElementById("footer1").href);
+		slide(arr[0],arr[1]);
 
-		// Prioritize revealing fragments
-		if( ( isOverview() || nextFragment() === false ) && availableRoutes().down ) {
-			slide( indexh, indexv + 1 );
-		}
+		// // Prioritize revealing fragments
+		// if( ( isOverview() || nextFragment() === false ) && availableRoutes().down ) {
+		// 	slide( indexh, indexv + 1 );
+		// }
 
 	}
 
