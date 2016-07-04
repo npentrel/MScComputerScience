@@ -3899,6 +3899,22 @@
 		return NAV_SEQ[cur[0]+"/"+cur[1]];
 	}
 
+	function nextSlideByType(tnext, vnext, bnext, pnext, newSeq, pos) {
+		if (newSeq[pos] == "t") {
+			 return tnext;
+		} else {
+			if (newSeq[pos] == "v") {
+				return vnext;
+			} else {
+				if (newSeq[pos] == "b") {
+					return bnext;
+				} else {
+					return pnext; // photo
+				}
+			}
+		}			
+	}
+
 	function navigateLeft() {
 		console.log("current url: " + window.location.href);
 		var cur = window.location.href.match(/(\d+)/g);
@@ -3991,61 +4007,11 @@
 		var newSeq = getSequence(arr);
 		console.log(newSeq);
 
-		if (newSeq[0] == "t") {
-			var upN = tnext;
-		} else {
-			if (newSeq[0] == "v") {
-				var upN = vnext;
-			} else {
-				if (newSeq[0] == "b") {
-					var upN = bnext;
-				} else {
-					var upN = pnext; // photo
-				}
-			}
-		}
+		var upN = nextSlideByType(tnext, vnext, bnext, pnext, newSeq, 0);
+		var rightN = nextSlideByType(tnext, vnext, bnext, pnext, newSeq, 1);
+		var downN = nextSlideByType(tnext, vnext, bnext, pnext, newSeq, 2);
+		var leftN = nextSlideByType(tnext, vnext, bnext, pnext, newSeq, 2);
 
-		if (newSeq[1] == "t") {
-			var rightN = tnext;
-		} else {
-			if (newSeq[1] == "v") {
-				var rightN = vnext;
-			} else {
-				if (newSeq[1] == "b") {
-					var rightN = bnext;
-				} else {
-					var rightN = pnext; // photo
-				}
-			}
-		}
-
-		if (newSeq[2] == "t") {
-			var downN = tnext;
-		} else {
-			if (newSeq[2] == "v") {
-				var downN = vnext;
-			} else {
-				if (newSeq[2] == "b") {
-					var downN = bnext;
-				} else {
-					var downN = pnext; // photo
-				}
-			}
-		}
-
-		if (newSeq[3] == "t") {
-			var leftN = tnext;
-		} else {
-			if (newSeq[3] == "v") {
-				var leftN = vnext;
-			} else {
-				if (newSeq[3] == "b") {
-					var leftN = bnext;
-				} else {
-					var leftN = pnext; // photo
-				}
-			}
-		}
 		console.log("NEW");
 		console.log(upN);
 		console.log(rightN);
@@ -4171,61 +4137,11 @@
 		var newSeq = getSequence(arr);
 		console.log(newSeq);
 
-		if (newSeq[0] == "t") {
-			var upN = tnext;
-		} else {
-			if (newSeq[0] == "v") {
-				var upN = vnext;
-			} else {
-				if (newSeq[0] == "b") {
-					var upN = bnext;
-				} else {
-					var upN = pnext; // photo
-				}
-			}
-		}
+		var upN = nextSlideByType(tnext, vnext, bnext, pnext, newSeq, 0);
+		var rightN = nextSlideByType(tnext, vnext, bnext, pnext, newSeq, 1);
+		var downN = nextSlideByType(tnext, vnext, bnext, pnext, newSeq, 2);
+		var leftN = nextSlideByType(tnext, vnext, bnext, pnext, newSeq, 2);
 
-		if (newSeq[1] == "t") {
-			var rightN = tnext;
-		} else {
-			if (newSeq[1] == "v") {
-				var rightN = vnext;
-			} else {
-				if (newSeq[1] == "b") {
-					var rightN = bnext;
-				} else {
-					var rightN = pnext; // photo
-				}
-			}
-		}
-
-		if (newSeq[2] == "t") {
-			var downN = tnext;
-		} else {
-			if (newSeq[2] == "v") {
-				var downN = vnext;
-			} else {
-				if (newSeq[2] == "b") {
-					var downN = bnext;
-				} else {
-					var downN = pnext; // photo
-				}
-			}
-		}
-
-		if (newSeq[3] == "t") {
-			var leftN = tnext;
-		} else {
-			if (newSeq[3] == "v") {
-				var leftN = vnext;
-			} else {
-				if (newSeq[3] == "b") {
-					var leftN = bnext;
-				} else {
-					var leftN = pnext; // photo
-				}
-			}
-		}
 		console.log("NEW");
 		console.log(upN);
 		console.log(rightN);
@@ -4352,61 +4268,11 @@
 		var newSeq = getSequence(arr);
 		console.log(newSeq);
 
-		if (newSeq[0] == "t") {
-			var upN = tnext;
-		} else {
-			if (newSeq[0] == "v") {
-				var upN = vnext;
-			} else {
-				if (newSeq[0] == "b") {
-					var upN = bnext;
-				} else {
-					var upN = pnext; // photo
-				}
-			}
-		}
+		var upN = nextSlideByType(tnext, vnext, bnext, pnext, newSeq, 0);
+		var rightN = nextSlideByType(tnext, vnext, bnext, pnext, newSeq, 1);
+		var downN = nextSlideByType(tnext, vnext, bnext, pnext, newSeq, 2);
+		var leftN = nextSlideByType(tnext, vnext, bnext, pnext, newSeq, 2);
 
-		if (newSeq[1] == "t") {
-			var rightN = tnext;
-		} else {
-			if (newSeq[1] == "v") {
-				var rightN = vnext;
-			} else {
-				if (newSeq[1] == "b") {
-					var rightN = bnext;
-				} else {
-					var rightN = pnext; // photo
-				}
-			}
-		}
-
-		if (newSeq[2] == "t") {
-			var downN = tnext;
-		} else {
-			if (newSeq[2] == "v") {
-				var downN = vnext;
-			} else {
-				if (newSeq[2] == "b") {
-					var downN = bnext;
-				} else {
-					var downN = pnext; // photo
-				}
-			}
-		}
-
-		if (newSeq[3] == "t") {
-			var leftN = tnext;
-		} else {
-			if (newSeq[3] == "v") {
-				var leftN = vnext;
-			} else {
-				if (newSeq[3] == "b") {
-					var leftN = bnext;
-				} else {
-					var leftN = pnext; // photo
-				}
-			}
-		}
 		console.log("NEW");
 		console.log(upN);
 		console.log(rightN);
@@ -4522,61 +4388,11 @@
 		var newSeq = getSequence(arr);
 		console.log(newSeq);
 
-		if (newSeq[0] == "t") {
-			var upN = tnext;
-		} else {
-			if (newSeq[0] == "v") {
-				var upN = vnext;
-			} else {
-				if (newSeq[0] == "b") {
-					var upN = bnext;
-				} else {
-					var upN = pnext; // photo
-				}
-			}
-		}
+		var upN = nextSlideByType(tnext, vnext, bnext, pnext, newSeq, 0);
+		var rightN = nextSlideByType(tnext, vnext, bnext, pnext, newSeq, 1);
+		var downN = nextSlideByType(tnext, vnext, bnext, pnext, newSeq, 2);
+		var leftN = nextSlideByType(tnext, vnext, bnext, pnext, newSeq, 2);
 
-		if (newSeq[1] == "t") {
-			var rightN = tnext;
-		} else {
-			if (newSeq[1] == "v") {
-				var rightN = vnext;
-			} else {
-				if (newSeq[1] == "b") {
-					var rightN = bnext;
-				} else {
-					var rightN = pnext; // photo
-				}
-			}
-		}
-
-		if (newSeq[2] == "t") {
-			var downN = tnext;
-		} else {
-			if (newSeq[2] == "v") {
-				var downN = vnext;
-			} else {
-				if (newSeq[2] == "b") {
-					var downN = bnext;
-				} else {
-					var downN = pnext; // photo
-				}
-			}
-		}
-
-		if (newSeq[3] == "t") {
-			var leftN = tnext;
-		} else {
-			if (newSeq[3] == "v") {
-				var leftN = vnext;
-			} else {
-				if (newSeq[3] == "b") {
-					var leftN = bnext;
-				} else {
-					var leftN = pnext; // photo
-				}
-			}
-		}
 		console.log("NEW");
 		console.log(upN);
 		console.log(rightN);
