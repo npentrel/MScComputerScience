@@ -3915,6 +3915,35 @@
 		}			
 	}
 
+	function findSlideWithType(slideType, oldSeq, upN, rightN, downN, leftN) {
+		if (oldSeq[0] == slideType) {
+			return upN;			
+		}  
+		if (oldSeq[1] == slideType) {
+			return  rightN;			
+		}  
+		if (oldSeq[2] == slideType) {
+			return downN;			
+		}  
+		if (oldSeq[3] == slideType) {
+			return leftN;			
+		}  			
+	}
+
+	function changeImagesAndLinks(upN, rightN, downN, leftN, newSeq) {
+		// change images
+		document.getElementById("header1img").src="previews/" + upN[0] + newSeq[0] + ".png";
+		document.getElementById("right1img").src="previews/" + rightN[0] + newSeq[1] + ".png";
+		document.getElementById("footer1img").src="previews/" + downN[0] + newSeq[2] + ".png";
+		document.getElementById("left1img").src="previews/" + leftN[0] + newSeq[3] + ".png";
+
+		// change links
+		document.getElementById("header1").href="index.html#/" + upN[0] + "/" + upN[1];
+		document.getElementById("right1").href="index.html#/" + rightN[0] + "/" + rightN[1];
+		document.getElementById("footer1").href="index.html#/" + downN[0] + "/" + downN[1];
+		document.getElementById("left1").href="index.html#/" + leftN[0] + "/" + leftN[1];		
+	}
+
 	function navigateLeft() {
 		console.log("current url: " + window.location.href);
 		var cur = window.location.href.match(/(\d+)/g);
@@ -3947,61 +3976,10 @@
 		}
 
 		var oldSeq = getSequence(cur);
-		var tnext = [0, 0];
-		var vnext = [0, 0];
-		var bnext = [0, 0];
-		var pnext = [0, 0];
-		if (oldSeq[0] == "p") {
-			pnext = upN;			
-		}  
-		if (oldSeq[0] == "v") {
-			vnext = upN;			
-		}  
-		if (oldSeq[0] == "t") {
-			tnext = upN;			
-		}  
-		if (oldSeq[0] == "b") {
-			bnext = upN;			
-		}  
-
-		if (oldSeq[1] == "p") {
-			pnext = rightN;			
-		}  
-		if (oldSeq[1] == "v") {
-			vnext = rightN;			
-		}  
-		if (oldSeq[1] == "t") {
-			tnext = rightN;			
-		}  
-		if (oldSeq[1] == "b") {
-			bnext = rightN;			
-		}  
-
-		if (oldSeq[2] == "p") {
-			pnext = downN;			
-		}  
-		if (oldSeq[2] == "v") {
-			vnext = downN;			
-		}  
-		if (oldSeq[2] == "t") {
-			tnext = downN;			
-		}  
-		if (oldSeq[2] == "b") {
-			bnext = downN;			
-		}  
-	
-		if (oldSeq[3] == "p") {
-			pnext = leftN;			
-		}  
-		if (oldSeq[3] == "v") {
-			vnext = leftN;			
-		}  
-		if (oldSeq[3] == "t") {
-			tnext = leftN;			
-		}  
-		if (oldSeq[3] == "b") {
-			bnext = leftN;			
-		}  
+		var tnext = findSlideWithType("t", oldSeq, upN, rightN, downN, leftN);
+		var vnext = findSlideWithType("v", oldSeq, upN, rightN, downN, leftN);
+		var bnext = findSlideWithType("b", oldSeq, upN, rightN, downN, leftN);
+		var pnext = findSlideWithType("p", oldSeq, upN, rightN, downN, leftN);
 
 		// pseudo random shuffle
 		var newSeq = getSequence(arr);
@@ -4010,7 +3988,7 @@
 		var upN = nextSlideByType(tnext, vnext, bnext, pnext, newSeq, 0);
 		var rightN = nextSlideByType(tnext, vnext, bnext, pnext, newSeq, 1);
 		var downN = nextSlideByType(tnext, vnext, bnext, pnext, newSeq, 2);
-		var leftN = nextSlideByType(tnext, vnext, bnext, pnext, newSeq, 2);
+		var leftN = nextSlideByType(tnext, vnext, bnext, pnext, newSeq, 3);
 
 		console.log("NEW");
 		console.log(upN);
@@ -4018,18 +3996,7 @@
 		console.log(downN);
 		console.log(leftN);
 
-		// change images
-		document.getElementById("header1img").src="previews/" + upN[0] + newSeq[0] + ".png";
-		document.getElementById("right1img").src="previews/" + rightN[0] + newSeq[1] + ".png";
-		document.getElementById("footer1img").src="previews/" + downN[0] + newSeq[2] + ".png";
-		document.getElementById("left1img").src="previews/" + leftN[0] + newSeq[3] + ".png";
-
-		// change links
-		document.getElementById("header1").href="index.html#/" + upN[0] + "/" + upN[1];
-		document.getElementById("right1").href="index.html#/" + rightN[0] + "/" + rightN[1];
-		document.getElementById("footer1").href="index.html#/" + downN[0] + "/" + downN[1];
-		document.getElementById("left1").href="index.html#/" + leftN[0] + "/" + leftN[1];
-
+		changeImagesAndLinks(upN, rightN, downN, leftN, newSeq);
 
 
 		// // Reverse for RTL
@@ -4077,61 +4044,10 @@
 		}
 
 		var oldSeq = getSequence(cur);
-		var tnext = [0, 0];
-		var vnext = [0, 0];
-		var bnext = [0, 0];
-		var pnext = [0, 0];
-		if (oldSeq[0] == "p") {
-			pnext = upN;			
-		}  
-		if (oldSeq[0] == "v") {
-			vnext = upN;			
-		}  
-		if (oldSeq[0] == "t") {
-			tnext = upN;			
-		}  
-		if (oldSeq[0] == "b") {
-			bnext = upN;			
-		}  
-
-		if (oldSeq[1] == "p") {
-			pnext = rightN;			
-		}  
-		if (oldSeq[1] == "v") {
-			vnext = rightN;			
-		}  
-		if (oldSeq[1] == "t") {
-			tnext = rightN;			
-		}  
-		if (oldSeq[1] == "b") {
-			bnext = rightN;			
-		}  
-
-		if (oldSeq[2] == "p") {
-			pnext = downN;			
-		}  
-		if (oldSeq[2] == "v") {
-			vnext = downN;			
-		}  
-		if (oldSeq[2] == "t") {
-			tnext = downN;			
-		}  
-		if (oldSeq[2] == "b") {
-			bnext = downN;			
-		}  
-	
-		if (oldSeq[3] == "p") {
-			pnext = leftN;			
-		}  
-		if (oldSeq[3] == "v") {
-			vnext = leftN;			
-		}  
-		if (oldSeq[3] == "t") {
-			tnext = leftN;			
-		}  
-		if (oldSeq[3] == "b") {
-			bnext = leftN;			
-		}  
+		var tnext = findSlideWithType("t", oldSeq, upN, rightN, downN, leftN);
+		var vnext = findSlideWithType("v", oldSeq, upN, rightN, downN, leftN);
+		var bnext = findSlideWithType("b", oldSeq, upN, rightN, downN, leftN);
+		var pnext = findSlideWithType("p", oldSeq, upN, rightN, downN, leftN);
 
 		// pseudo random shuffle
 		var newSeq = getSequence(arr);
@@ -4140,7 +4056,7 @@
 		var upN = nextSlideByType(tnext, vnext, bnext, pnext, newSeq, 0);
 		var rightN = nextSlideByType(tnext, vnext, bnext, pnext, newSeq, 1);
 		var downN = nextSlideByType(tnext, vnext, bnext, pnext, newSeq, 2);
-		var leftN = nextSlideByType(tnext, vnext, bnext, pnext, newSeq, 2);
+		var leftN = nextSlideByType(tnext, vnext, bnext, pnext, newSeq, 3);
 
 		console.log("NEW");
 		console.log(upN);
@@ -4148,19 +4064,7 @@
 		console.log(downN);
 		console.log(leftN);
 
-		// change images
-		document.getElementById("header1img").src="previews/" + upN[0] + newSeq[0] + ".png";
-		document.getElementById("right1img").src="previews/" + rightN[0] + newSeq[1] + ".png";
-		document.getElementById("footer1img").src="previews/" + downN[0] + newSeq[2] + ".png";
-		document.getElementById("left1img").src="previews/" + leftN[0] + newSeq[3] + ".png";
-
-		// change links
-		document.getElementById("header1").href="index.html#/" + upN[0] + "/" + upN[1];
-		document.getElementById("right1").href="index.html#/" + rightN[0] + "/" + rightN[1];
-		document.getElementById("footer1").href="index.html#/" + downN[0] + "/" + downN[1];
-		document.getElementById("left1").href="index.html#/" + leftN[0] + "/" + leftN[1];
-
-
+		changeImagesAndLinks(upN, rightN, downN, leftN, newSeq)
 
 		// Reverse for RTL
 		// if( config.rtl ) {
@@ -4208,61 +4112,10 @@
 		}
 
 		var oldSeq = getSequence(cur);
-		var tnext = [0, 0];
-		var vnext = [0, 0];
-		var bnext = [0, 0];
-		var pnext = [0, 0];
-		if (oldSeq[0] == "p") {
-			pnext = upN;			
-		}  
-		if (oldSeq[0] == "v") {
-			vnext = upN;			
-		}  
-		if (oldSeq[0] == "t") {
-			tnext = upN;			
-		}  
-		if (oldSeq[0] == "b") {
-			bnext = upN;			
-		}  
-
-		if (oldSeq[1] == "p") {
-			pnext = rightN;			
-		}  
-		if (oldSeq[1] == "v") {
-			vnext = rightN;			
-		}  
-		if (oldSeq[1] == "t") {
-			tnext = rightN;			
-		}  
-		if (oldSeq[1] == "b") {
-			bnext = rightN;			
-		}  
-
-		if (oldSeq[2] == "p") {
-			pnext = downN;			
-		}  
-		if (oldSeq[2] == "v") {
-			vnext = downN;			
-		}  
-		if (oldSeq[2] == "t") {
-			tnext = downN;			
-		}  
-		if (oldSeq[2] == "b") {
-			bnext = downN;			
-		}  
-	
-		if (oldSeq[3] == "p") {
-			pnext = leftN;			
-		}  
-		if (oldSeq[3] == "v") {
-			vnext = leftN;			
-		}  
-		if (oldSeq[3] == "t") {
-			tnext = leftN;			
-		}  
-		if (oldSeq[3] == "b") {
-			bnext = leftN;			
-		}  
+		var tnext = findSlideWithType("t", oldSeq, upN, rightN, downN, leftN);
+		var vnext = findSlideWithType("v", oldSeq, upN, rightN, downN, leftN);
+		var bnext = findSlideWithType("b", oldSeq, upN, rightN, downN, leftN);
+		var pnext = findSlideWithType("p", oldSeq, upN, rightN, downN, leftN);
 
 		// pseudo random shuffle
 		var newSeq = getSequence(arr);
@@ -4271,7 +4124,7 @@
 		var upN = nextSlideByType(tnext, vnext, bnext, pnext, newSeq, 0);
 		var rightN = nextSlideByType(tnext, vnext, bnext, pnext, newSeq, 1);
 		var downN = nextSlideByType(tnext, vnext, bnext, pnext, newSeq, 2);
-		var leftN = nextSlideByType(tnext, vnext, bnext, pnext, newSeq, 2);
+		var leftN = nextSlideByType(tnext, vnext, bnext, pnext, newSeq, 3);
 
 		console.log("NEW");
 		console.log(upN);
@@ -4279,17 +4132,7 @@
 		console.log(downN);
 		console.log(leftN);
 
-		// change images
-		document.getElementById("header1img").src="previews/" + upN[0] + newSeq[0] + ".png";
-		document.getElementById("right1img").src="previews/" + rightN[0] + newSeq[1] + ".png";
-		document.getElementById("footer1img").src="previews/" + downN[0] + newSeq[2] + ".png";
-		document.getElementById("left1img").src="previews/" + leftN[0] + newSeq[3] + ".png";
-
-		// change links
-		document.getElementById("header1").href="index.html#/" + upN[0] + "/" + upN[1];
-		document.getElementById("right1").href="index.html#/" + rightN[0] + "/" + rightN[1];
-		document.getElementById("footer1").href="index.html#/" + downN[0] + "/" + downN[1];
-		document.getElementById("left1").href="index.html#/" + leftN[0] + "/" + leftN[1];
+		changeImagesAndLinks(upN, rightN, downN, leftN, newSeq)
 
 		// if( ( isOverview() || previousFragment() === false ) && availableRoutes().up ) {
 		// 	slide( indexh, indexv - 1 );
@@ -4328,61 +4171,10 @@
 		}
 
 		var oldSeq = getSequence(cur);
-		var tnext = [0, 0];
-		var vnext = [0, 0];
-		var bnext = [0, 0];
-		var pnext = [0, 0];
-		if (oldSeq[0] == "p") {
-			pnext = upN;			
-		}  
-		if (oldSeq[0] == "v") {
-			vnext = upN;			
-		}  
-		if (oldSeq[0] == "t") {
-			tnext = upN;			
-		}  
-		if (oldSeq[0] == "b") {
-			bnext = upN;			
-		}  
-
-		if (oldSeq[1] == "p") {
-			pnext = rightN;			
-		}  
-		if (oldSeq[1] == "v") {
-			vnext = rightN;			
-		}  
-		if (oldSeq[1] == "t") {
-			tnext = rightN;			
-		}  
-		if (oldSeq[1] == "b") {
-			bnext = rightN;			
-		}  
-
-		if (oldSeq[2] == "p") {
-			pnext = downN;			
-		}  
-		if (oldSeq[2] == "v") {
-			vnext = downN;			
-		}  
-		if (oldSeq[2] == "t") {
-			tnext = downN;			
-		}  
-		if (oldSeq[2] == "b") {
-			bnext = downN;			
-		}  
-	
-		if (oldSeq[3] == "p") {
-			pnext = leftN;			
-		}  
-		if (oldSeq[3] == "v") {
-			vnext = leftN;			
-		}  
-		if (oldSeq[3] == "t") {
-			tnext = leftN;			
-		}  
-		if (oldSeq[3] == "b") {
-			bnext = leftN;			
-		}  
+		var tnext = findSlideWithType("t", oldSeq, upN, rightN, downN, leftN);
+		var vnext = findSlideWithType("v", oldSeq, upN, rightN, downN, leftN);
+		var bnext = findSlideWithType("b", oldSeq, upN, rightN, downN, leftN);
+		var pnext = findSlideWithType("p", oldSeq, upN, rightN, downN, leftN);
 
 		// pseudo random shuffle
 		var newSeq = getSequence(arr);
@@ -4391,7 +4183,7 @@
 		var upN = nextSlideByType(tnext, vnext, bnext, pnext, newSeq, 0);
 		var rightN = nextSlideByType(tnext, vnext, bnext, pnext, newSeq, 1);
 		var downN = nextSlideByType(tnext, vnext, bnext, pnext, newSeq, 2);
-		var leftN = nextSlideByType(tnext, vnext, bnext, pnext, newSeq, 2);
+		var leftN = nextSlideByType(tnext, vnext, bnext, pnext, newSeq, 3);
 
 		console.log("NEW");
 		console.log(upN);
@@ -4399,17 +4191,8 @@
 		console.log(downN);
 		console.log(leftN);
 
-		// change images
-		document.getElementById("header1img").src="previews/" + upN[0] + newSeq[0] + ".png";
-		document.getElementById("right1img").src="previews/" + rightN[0] + newSeq[1] + ".png";
-		document.getElementById("footer1img").src="previews/" + downN[0] + newSeq[2] + ".png";
-		document.getElementById("left1img").src="previews/" + leftN[0] + newSeq[3] + ".png";
+		changeImagesAndLinks(upN, rightN, downN, leftN, newSeq)
 
-		// change links
-		document.getElementById("header1").href="index.html#/" + upN[0] + "/" + upN[1];
-		document.getElementById("right1").href="index.html#/" + rightN[0] + "/" + rightN[1];
-		document.getElementById("footer1").href="index.html#/" + downN[0] + "/" + downN[1];
-		document.getElementById("left1").href="index.html#/" + leftN[0] + "/" + leftN[1];
 		// // Prioritize revealing fragments
 		// if( ( isOverview() || nextFragment() === false ) && availableRoutes().down ) {
 		// 	slide( indexh, indexv + 1 );
