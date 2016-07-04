@@ -3895,6 +3895,10 @@
 
 	}
 
+	function getSequence(cur) {
+		return NAV_SEQ[cur[0]+"/"+cur[1]];
+	}
+
 	function navigateLeft() {
 		console.log("current url: " + window.location.href);
 		var cur = window.location.href.match(/(\d+)/g);
@@ -3926,7 +3930,7 @@
 			downN = [downN[0], downN[2]];
 		}
 
-		var oldSeq = NAV_SEQ[cur[0]+"/"+cur[1]];
+		var oldSeq = getSequence(cur);
 		var tnext = [0, 0];
 		var vnext = [0, 0];
 		var bnext = [0, 0];
@@ -3984,8 +3988,9 @@
 		}  
 
 		// pseudo random shuffle
-		var newSeq = NAV_SEQ[arr[0]+"/"+arr[1]];
+		var newSeq = getSequence(arr);
 		console.log(newSeq);
+
 		if (newSeq[0] == "t") {
 			var upN = tnext;
 		} else {
@@ -4075,9 +4080,171 @@
 	}
 
 	function navigateRight() {
+		console.log("current url: " + window.location.href);
+		var cur = window.location.href.match(/(\d+)/g);
 		var arr = (document.getElementById("right1").href).match(/(\d+)/g);
 		console.log(document.getElementById("right1").href);
 		slide(arr[0],arr[1]);
+
+		// replace
+		if (cur[0] == arr[0]) {
+			// 1 => right
+			var rightN = TOPICS[NAV_SEQ[cur[0]+"/"+cur[1]][1]][parseInt(arr[0])+1];
+			rightN = [rightN[0], rightN[2]];
+			var leftN = (document.getElementById("right1").href).match(/(\d+)/g);
+			var upN = (document.getElementById("header1").href).match(/(\d+)/g);
+			var downN = (document.getElementById("footer1").href).match(/(\d+)/g);
+			console.log(upN);
+			console.log(rightN);
+			console.log(downN);
+			console.log(leftN);
+		} else {
+			var leftN = TOPICS[NAV_SEQ[cur[0]+"/"+cur[1]][3]][parseInt(arr[0])];
+			leftN = [leftN[0], leftN[2]];
+			// 1 => right
+			var rightN = TOPICS[NAV_SEQ[cur[0]+"/"+cur[1]][1]][parseInt(arr[0])+1];
+			rightN = [rightN[0], rightN[2]];
+			var upN = TOPICS[NAV_SEQ[cur[0]+"/"+cur[1]][0]][parseInt(arr[0])];
+			upN = [upN[0], upN[2]];
+			var downN = TOPICS[NAV_SEQ[cur[0]+"/"+cur[1]][2]][parseInt(arr[0])];
+			downN = [downN[0], downN[2]];
+		}
+
+		var oldSeq = getSequence(cur);
+		var tnext = [0, 0];
+		var vnext = [0, 0];
+		var bnext = [0, 0];
+		var pnext = [0, 0];
+		if (oldSeq[0] == "p") {
+			pnext = upN;			
+		}  
+		if (oldSeq[0] == "v") {
+			vnext = upN;			
+		}  
+		if (oldSeq[0] == "t") {
+			tnext = upN;			
+		}  
+		if (oldSeq[0] == "b") {
+			bnext = upN;			
+		}  
+
+		if (oldSeq[1] == "p") {
+			pnext = rightN;			
+		}  
+		if (oldSeq[1] == "v") {
+			vnext = rightN;			
+		}  
+		if (oldSeq[1] == "t") {
+			tnext = rightN;			
+		}  
+		if (oldSeq[1] == "b") {
+			bnext = rightN;			
+		}  
+
+		if (oldSeq[2] == "p") {
+			pnext = downN;			
+		}  
+		if (oldSeq[2] == "v") {
+			vnext = downN;			
+		}  
+		if (oldSeq[2] == "t") {
+			tnext = downN;			
+		}  
+		if (oldSeq[2] == "b") {
+			bnext = downN;			
+		}  
+	
+		if (oldSeq[3] == "p") {
+			pnext = leftN;			
+		}  
+		if (oldSeq[3] == "v") {
+			vnext = leftN;			
+		}  
+		if (oldSeq[3] == "t") {
+			tnext = leftN;			
+		}  
+		if (oldSeq[3] == "b") {
+			bnext = leftN;			
+		}  
+
+		// pseudo random shuffle
+		var newSeq = getSequence(arr);
+		console.log(newSeq);
+
+		if (newSeq[0] == "t") {
+			var upN = tnext;
+		} else {
+			if (newSeq[0] == "v") {
+				var upN = vnext;
+			} else {
+				if (newSeq[0] == "b") {
+					var upN = bnext;
+				} else {
+					var upN = pnext; // photo
+				}
+			}
+		}
+
+		if (newSeq[1] == "t") {
+			var rightN = tnext;
+		} else {
+			if (newSeq[1] == "v") {
+				var rightN = vnext;
+			} else {
+				if (newSeq[1] == "b") {
+					var rightN = bnext;
+				} else {
+					var rightN = pnext; // photo
+				}
+			}
+		}
+
+		if (newSeq[2] == "t") {
+			var downN = tnext;
+		} else {
+			if (newSeq[2] == "v") {
+				var downN = vnext;
+			} else {
+				if (newSeq[2] == "b") {
+					var downN = bnext;
+				} else {
+					var downN = pnext; // photo
+				}
+			}
+		}
+
+		if (newSeq[3] == "t") {
+			var leftN = tnext;
+		} else {
+			if (newSeq[3] == "v") {
+				var leftN = vnext;
+			} else {
+				if (newSeq[3] == "b") {
+					var leftN = bnext;
+				} else {
+					var leftN = pnext; // photo
+				}
+			}
+		}
+		console.log("NEW");
+		console.log(upN);
+		console.log(rightN);
+		console.log(downN);
+		console.log(leftN);
+
+		// change images
+		document.getElementById("header1img").src="previews/" + upN[0] + newSeq[0] + ".png";
+		document.getElementById("right1img").src="previews/" + rightN[0] + newSeq[1] + ".png";
+		document.getElementById("footer1img").src="previews/" + downN[0] + newSeq[2] + ".png";
+		document.getElementById("left1img").src="previews/" + leftN[0] + newSeq[3] + ".png";
+
+		// change links
+		document.getElementById("header1").href="index.html#/" + upN[0] + "/" + upN[1];
+		document.getElementById("right1").href="index.html#/" + rightN[0] + "/" + rightN[1];
+		document.getElementById("footer1").href="index.html#/" + downN[0] + "/" + downN[1];
+		document.getElementById("left1").href="index.html#/" + leftN[0] + "/" + leftN[1];
+
+
 
 		// Reverse for RTL
 		// if( config.rtl ) {
@@ -4095,19 +4262,338 @@
 
 	function navigateUp() {
 		console.log("current url: " + window.location.href);
+		var cur = window.location.href.match(/(\d+)/g);
 		var arr = (document.getElementById("header1").href).match(/(\d+)/g);
 		console.log(document.getElementById("header1").href);
 		slide(arr[0],arr[1]);
+
+		// replace
+		if (cur[0] == arr[0]) {
+			// 0 => up
+			var upN = TOPICS[NAV_SEQ[cur[0]+"/"+cur[1]][0]][parseInt(arr[0])+1];
+			upN = [upN[0], upN[2]];
+			var rightN = (document.getElementById("right1").href).match(/(\d+)/g);
+			var leftN = (document.getElementById("header1").href).match(/(\d+)/g);
+			var downN = (document.getElementById("footer1").href).match(/(\d+)/g);
+			console.log(upN);
+			console.log(rightN);
+			console.log(downN);
+			console.log(leftN);
+		} else {
+			// 0 => up
+			var leftN = TOPICS[NAV_SEQ[cur[0]+"/"+cur[1]][3]][parseInt(arr[0])];
+			leftN = [leftN[0], leftN[2]];
+			var rightN = TOPICS[NAV_SEQ[cur[0]+"/"+cur[1]][1]][parseInt(arr[0])];
+			rightN = [rightN[0], rightN[2]];
+			var upN = TOPICS[NAV_SEQ[cur[0]+"/"+cur[1]][0]][parseInt(arr[0])+1];
+			upN = [upN[0], upN[2]];
+			var downN = TOPICS[NAV_SEQ[cur[0]+"/"+cur[1]][2]][parseInt(arr[0])];
+			downN = [downN[0], downN[2]];
+		}
+
+		var oldSeq = getSequence(cur);
+		var tnext = [0, 0];
+		var vnext = [0, 0];
+		var bnext = [0, 0];
+		var pnext = [0, 0];
+		if (oldSeq[0] == "p") {
+			pnext = upN;			
+		}  
+		if (oldSeq[0] == "v") {
+			vnext = upN;			
+		}  
+		if (oldSeq[0] == "t") {
+			tnext = upN;			
+		}  
+		if (oldSeq[0] == "b") {
+			bnext = upN;			
+		}  
+
+		if (oldSeq[1] == "p") {
+			pnext = rightN;			
+		}  
+		if (oldSeq[1] == "v") {
+			vnext = rightN;			
+		}  
+		if (oldSeq[1] == "t") {
+			tnext = rightN;			
+		}  
+		if (oldSeq[1] == "b") {
+			bnext = rightN;			
+		}  
+
+		if (oldSeq[2] == "p") {
+			pnext = downN;			
+		}  
+		if (oldSeq[2] == "v") {
+			vnext = downN;			
+		}  
+		if (oldSeq[2] == "t") {
+			tnext = downN;			
+		}  
+		if (oldSeq[2] == "b") {
+			bnext = downN;			
+		}  
+	
+		if (oldSeq[3] == "p") {
+			pnext = leftN;			
+		}  
+		if (oldSeq[3] == "v") {
+			vnext = leftN;			
+		}  
+		if (oldSeq[3] == "t") {
+			tnext = leftN;			
+		}  
+		if (oldSeq[3] == "b") {
+			bnext = leftN;			
+		}  
+
+		// pseudo random shuffle
+		var newSeq = getSequence(arr);
+		console.log(newSeq);
+
+		if (newSeq[0] == "t") {
+			var upN = tnext;
+		} else {
+			if (newSeq[0] == "v") {
+				var upN = vnext;
+			} else {
+				if (newSeq[0] == "b") {
+					var upN = bnext;
+				} else {
+					var upN = pnext; // photo
+				}
+			}
+		}
+
+		if (newSeq[1] == "t") {
+			var rightN = tnext;
+		} else {
+			if (newSeq[1] == "v") {
+				var rightN = vnext;
+			} else {
+				if (newSeq[1] == "b") {
+					var rightN = bnext;
+				} else {
+					var rightN = pnext; // photo
+				}
+			}
+		}
+
+		if (newSeq[2] == "t") {
+			var downN = tnext;
+		} else {
+			if (newSeq[2] == "v") {
+				var downN = vnext;
+			} else {
+				if (newSeq[2] == "b") {
+					var downN = bnext;
+				} else {
+					var downN = pnext; // photo
+				}
+			}
+		}
+
+		if (newSeq[3] == "t") {
+			var leftN = tnext;
+		} else {
+			if (newSeq[3] == "v") {
+				var leftN = vnext;
+			} else {
+				if (newSeq[3] == "b") {
+					var leftN = bnext;
+				} else {
+					var leftN = pnext; // photo
+				}
+			}
+		}
+		console.log("NEW");
+		console.log(upN);
+		console.log(rightN);
+		console.log(downN);
+		console.log(leftN);
+
+		// change images
+		document.getElementById("header1img").src="previews/" + upN[0] + newSeq[0] + ".png";
+		document.getElementById("right1img").src="previews/" + rightN[0] + newSeq[1] + ".png";
+		document.getElementById("footer1img").src="previews/" + downN[0] + newSeq[2] + ".png";
+		document.getElementById("left1img").src="previews/" + leftN[0] + newSeq[3] + ".png";
+
+		// change links
+		document.getElementById("header1").href="index.html#/" + upN[0] + "/" + upN[1];
+		document.getElementById("right1").href="index.html#/" + rightN[0] + "/" + rightN[1];
+		document.getElementById("footer1").href="index.html#/" + downN[0] + "/" + downN[1];
+		document.getElementById("left1").href="index.html#/" + leftN[0] + "/" + leftN[1];
+
 		// if( ( isOverview() || previousFragment() === false ) && availableRoutes().up ) {
 		// 	slide( indexh, indexv - 1 );
 		// }
 	}
 
 	function navigateDown() {
+		console.log("current url: " + window.location.href);
+		var cur = window.location.href.match(/(\d+)/g);
 		var arr = (document.getElementById("footer1").href).match(/(\d+)/g);
 		console.log(document.getElementById("footer1").href);
 		slide(arr[0],arr[1]);
 
+		// replace
+		if (cur[0] == arr[0]) {
+			// 2 => down
+			var downN = TOPICS[NAV_SEQ[cur[0]+"/"+cur[1]][2]][parseInt(arr[0])+1];
+			downN = [downN[0], downN[2]];
+			var rightN = (document.getElementById("right1").href).match(/(\d+)/g);
+			var leftN = (document.getElementById("header1").href).match(/(\d+)/g);
+			var upN = (document.getElementById("footer1").href).match(/(\d+)/g);
+			console.log(upN);
+			console.log(rightN);
+			console.log(downN);
+			console.log(leftN);
+		} else {
+			// 2 => down
+			var leftN = TOPICS[NAV_SEQ[cur[0]+"/"+cur[1]][3]][parseInt(arr[0])];
+			leftN = [leftN[0], leftN[2]];
+			var rightN = TOPICS[NAV_SEQ[cur[0]+"/"+cur[1]][1]][parseInt(arr[0])];
+			rightN = [rightN[0], rightN[2]];
+			var upN = TOPICS[NAV_SEQ[cur[0]+"/"+cur[1]][0]][parseInt(arr[0])];
+			upN = [upN[0], upN[2]];
+			var downN = TOPICS[NAV_SEQ[cur[0]+"/"+cur[1]][2]][parseInt(arr[0])+1];
+			downN = [downN[0], downN[2]];
+		}
+
+		var oldSeq = getSequence(cur);
+		var tnext = [0, 0];
+		var vnext = [0, 0];
+		var bnext = [0, 0];
+		var pnext = [0, 0];
+		if (oldSeq[0] == "p") {
+			pnext = upN;			
+		}  
+		if (oldSeq[0] == "v") {
+			vnext = upN;			
+		}  
+		if (oldSeq[0] == "t") {
+			tnext = upN;			
+		}  
+		if (oldSeq[0] == "b") {
+			bnext = upN;			
+		}  
+
+		if (oldSeq[1] == "p") {
+			pnext = rightN;			
+		}  
+		if (oldSeq[1] == "v") {
+			vnext = rightN;			
+		}  
+		if (oldSeq[1] == "t") {
+			tnext = rightN;			
+		}  
+		if (oldSeq[1] == "b") {
+			bnext = rightN;			
+		}  
+
+		if (oldSeq[2] == "p") {
+			pnext = downN;			
+		}  
+		if (oldSeq[2] == "v") {
+			vnext = downN;			
+		}  
+		if (oldSeq[2] == "t") {
+			tnext = downN;			
+		}  
+		if (oldSeq[2] == "b") {
+			bnext = downN;			
+		}  
+	
+		if (oldSeq[3] == "p") {
+			pnext = leftN;			
+		}  
+		if (oldSeq[3] == "v") {
+			vnext = leftN;			
+		}  
+		if (oldSeq[3] == "t") {
+			tnext = leftN;			
+		}  
+		if (oldSeq[3] == "b") {
+			bnext = leftN;			
+		}  
+
+		// pseudo random shuffle
+		var newSeq = getSequence(arr);
+		console.log(newSeq);
+
+		if (newSeq[0] == "t") {
+			var upN = tnext;
+		} else {
+			if (newSeq[0] == "v") {
+				var upN = vnext;
+			} else {
+				if (newSeq[0] == "b") {
+					var upN = bnext;
+				} else {
+					var upN = pnext; // photo
+				}
+			}
+		}
+
+		if (newSeq[1] == "t") {
+			var rightN = tnext;
+		} else {
+			if (newSeq[1] == "v") {
+				var rightN = vnext;
+			} else {
+				if (newSeq[1] == "b") {
+					var rightN = bnext;
+				} else {
+					var rightN = pnext; // photo
+				}
+			}
+		}
+
+		if (newSeq[2] == "t") {
+			var downN = tnext;
+		} else {
+			if (newSeq[2] == "v") {
+				var downN = vnext;
+			} else {
+				if (newSeq[2] == "b") {
+					var downN = bnext;
+				} else {
+					var downN = pnext; // photo
+				}
+			}
+		}
+
+		if (newSeq[3] == "t") {
+			var leftN = tnext;
+		} else {
+			if (newSeq[3] == "v") {
+				var leftN = vnext;
+			} else {
+				if (newSeq[3] == "b") {
+					var leftN = bnext;
+				} else {
+					var leftN = pnext; // photo
+				}
+			}
+		}
+		console.log("NEW");
+		console.log(upN);
+		console.log(rightN);
+		console.log(downN);
+		console.log(leftN);
+
+		// change images
+		document.getElementById("header1img").src="previews/" + upN[0] + newSeq[0] + ".png";
+		document.getElementById("right1img").src="previews/" + rightN[0] + newSeq[1] + ".png";
+		document.getElementById("footer1img").src="previews/" + downN[0] + newSeq[2] + ".png";
+		document.getElementById("left1img").src="previews/" + leftN[0] + newSeq[3] + ".png";
+
+		// change links
+		document.getElementById("header1").href="index.html#/" + upN[0] + "/" + upN[1];
+		document.getElementById("right1").href="index.html#/" + rightN[0] + "/" + rightN[1];
+		document.getElementById("footer1").href="index.html#/" + downN[0] + "/" + downN[1];
+		document.getElementById("left1").href="index.html#/" + leftN[0] + "/" + leftN[1];
 		// // Prioritize revealing fragments
 		// if( ( isOverview() || nextFragment() === false ) && availableRoutes().down ) {
 		// 	slide( indexh, indexv + 1 );
