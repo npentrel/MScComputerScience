@@ -1,3 +1,11 @@
+.nobottommargin {
+    margin-bottom: -10px !important;  
+}
+
+one {
+    margin-left: 2.5em;
+}
+
 .sametopic {
   border:1px solid blue !important;
 }
