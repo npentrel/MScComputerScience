@@ -34,6 +34,8 @@
 	TOPICS["p"] = ["0/0", "1/4", "2/2", "3/1", "4/4", "5/1", "6/3", "7/2", "8/3"];
 	TOPICS["v"] = ["0/0", "1/2", "2/4", "3/3", "4/1", "5/2", "6/1", "7/3", "8/4"];
 
+
+
 	// up, right, bottom, left
 	var NAV_SEQ = {};
 	NAV_SEQ["1/1"] = ["v", "t", "b", "p"];
@@ -3930,7 +3932,30 @@
 		}  			
 	}
 
+	function smallesSlide(upN, rightN, downN, leftN) {
+		var small = upN[0];
+
+		if (rightN[0] < small) {
+			small = rightN[0];
+		}
+		if (downN[0] < small) {
+			small = downN[0];
+		}
+		if (leftN[0] < small) {
+			small = leftN[0];
+		}
+
+		if (upN[0] == rightN[0] && rightN[0] == downN[0] && downN[0] == leftN[0]) {
+			small = small - 1;
+		}
+
+		return small;
+	}
+
 	function changeImagesAndLinks(upN, rightN, downN, leftN, newSeq) {
+
+		var currentSlideSet = smallesSlide(upN, rightN, downN, leftN);
+
 		// change images
 		document.getElementById("header1img").src="previews/" + upN[0] + newSeq[0] + ".png";
 		document.getElementById("right1img").src="previews/" + rightN[0] + newSeq[1] + ".png";
@@ -3941,7 +3966,33 @@
 		document.getElementById("header1").href="index.html#/" + upN[0] + "/" + upN[1];
 		document.getElementById("right1").href="index.html#/" + rightN[0] + "/" + rightN[1];
 		document.getElementById("footer1").href="index.html#/" + downN[0] + "/" + downN[1];
-		document.getElementById("left1").href="index.html#/" + leftN[0] + "/" + leftN[1];		
+		document.getElementById("left1").href="index.html#/" + leftN[0] + "/" + leftN[1];
+
+		// change boxes
+		if (upN[0] == currentSlideSet) {
+			document.getElementById("header1img").className = "sametopic";
+		} else {
+			document.getElementById("header1img").className = "newtopic";
+		}
+
+		if (rightN[0] == currentSlideSet) {
+			document.getElementById("right1img").className = "sametopic";
+		} else {
+			document.getElementById("right1img").className = "newtopic";
+		}
+
+		if (downN[0] == currentSlideSet) {
+			document.getElementById("footer1img").className = "sametopic";
+		} else {
+			document.getElementById("footer1img").className = "newtopic";
+		}
+
+		if (leftN[0] == currentSlideSet) {
+			document.getElementById("left1img").className = "sametopic";
+		} else {
+			document.getElementById("left1img").className = "newtopic";
+		}
+
 	}
 
 	function navigateLeft() {
@@ -3997,19 +4048,6 @@
 		console.log(leftN);
 
 		changeImagesAndLinks(upN, rightN, downN, leftN, newSeq);
-
-
-		// // Reverse for RTL
-		// if( config.rtl ) {
-		// 	if( ( isOverview() || nextFragment() === false ) && availableRoutes().left ) {
-		// 		slide( indexh + 1, indexv);
-		// 	}
-		// }
-		// // Normal navigation
-		// else if( ( isOverview() || previousFragment() === false ) && availableRoutes().left ) {
-		// 	slide( indexh - 1, indexv);
-		// }
-
 	}
 
 	function navigateRight() {
@@ -4024,7 +4062,7 @@
 			// 1 => right
 			var rightN = TOPICS[NAV_SEQ[cur[0]+"/"+cur[1]][1]][parseInt(arr[0])+1];
 			rightN = [rightN[0], rightN[2]];
-			var leftN = (document.getElementById("right1").href).match(/(\d+)/g);
+			var leftN = (document.getElementById("left1").href).match(/(\d+)/g);
 			var upN = (document.getElementById("header1").href).match(/(\d+)/g);
 			var downN = (document.getElementById("footer1").href).match(/(\d+)/g);
 			console.log(upN);
@@ -4066,18 +4104,6 @@
 
 		changeImagesAndLinks(upN, rightN, downN, leftN, newSeq)
 
-		// Reverse for RTL
-		// if( config.rtl ) {
-		// 	if( ( isOverview() || previousFragment() === false ) && availableRoutes().right ) {
-		// 		slide( indexh - 1, indexv);
-		// 	}
-		// }
-
-		// // Normal navigation
-		// else if( ( isOverview() || nextFragment() === false ) && availableRoutes().right ) {
-		// 	slide( indexh + 1, indexv);
-		// }
-
 	}
 
 	function navigateUp() {
@@ -4091,9 +4117,10 @@
 		if (cur[0] == arr[0]) {
 			// 0 => up
 			var upN = TOPICS[NAV_SEQ[cur[0]+"/"+cur[1]][0]][parseInt(arr[0])+1];
+			console.log(upN);
 			upN = [upN[0], upN[2]];
 			var rightN = (document.getElementById("right1").href).match(/(\d+)/g);
-			var leftN = (document.getElementById("header1").href).match(/(\d+)/g);
+			var leftN = (document.getElementById("left1").href).match(/(\d+)/g);
 			var downN = (document.getElementById("footer1").href).match(/(\d+)/g);
 			console.log(upN);
 			console.log(rightN);
@@ -4152,8 +4179,8 @@
 			var downN = TOPICS[NAV_SEQ[cur[0]+"/"+cur[1]][2]][parseInt(arr[0])+1];
 			downN = [downN[0], downN[2]];
 			var rightN = (document.getElementById("right1").href).match(/(\d+)/g);
-			var leftN = (document.getElementById("header1").href).match(/(\d+)/g);
-			var upN = (document.getElementById("footer1").href).match(/(\d+)/g);
+			var leftN = (document.getElementById("left1").href).match(/(\d+)/g);
+			var upN = (document.getElementById("header1").href).match(/(\d+)/g);
 			console.log(upN);
 			console.log(rightN);
 			console.log(downN);

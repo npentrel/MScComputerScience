@@ -1,3 +1,11 @@
+.sametopic {
+  border:1px solid blue !important;
+}
+
+.newtopic {
+  border:1px solid cyan !important;
+}
+
 .full {
     width: 100%;
     height: 100%
