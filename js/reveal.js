@@ -71,7 +71,7 @@
 	NAV_SEQ["8/3"] = ["b", "t", "p", "v"];
 	NAV_SEQ["8/4"] = ["v", "p", "t", "b"];
 
-
+	// save_content_to_file("Hello", "/Users/Naomi/coding/MScComputerScience/data/1.txt");
 
 	var SLIDES_SELECTOR = '.slides section',
 		HORIZONTAL_SLIDES_SELECTOR = '.slides>section',
@@ -291,6 +291,37 @@
 			'F':					'Fullscreen',
 			'ESC, O':				'Slide overview'
 		};
+
+	(function(console){
+
+	console.save = function(data, filename){
+
+	    if(!data) {
+	        console.error('Console.save: No data')
+	        return;
+	    }
+
+	    if(!filename) filename = 'results.csv'
+
+	    if(typeof data === "object"){
+	        data = JSON.stringify(data, undefined, 4)
+	    }
+
+	    var blob = new Blob([data], {type: 'text/json'}),
+	        e    = document.createEvent('MouseEvents'),
+	        a    = document.createElement('a')
+
+	    a.download = filename
+	    a.href = window.URL.createObjectURL(blob)
+	    a.dataset.downloadurl =  ['text/json', a.download, a.href].join(':')
+	    e.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
+	    a.dispatchEvent(e)
+	 }
+	})(console)
+
+	var lastSeconds = Date.now() / 1000;
+	var logging = "direction, next, type, time, seconds spent\n";
+	printNavigation("start", ["0", "0"], ["1", "1"]);
 
 	/**
 	 * Starts up the presentation if the client is capable.
@@ -3998,9 +4029,12 @@
 	function navigateLeft() {
 		console.log("current url: " + window.location.href);
 		var cur = window.location.href.match(/(\d+)/g);
+
 		var arr = (document.getElementById("left1").href).match(/(\d+)/g);
 		console.log(document.getElementById("left1").href);
 		slide(arr[0],arr[1]);
+
+		printNavigation("left", cur, arr);
 
 		// replace
 		if (cur[0] == arr[0]) {
@@ -4053,9 +4087,12 @@
 	function navigateRight() {
 		console.log("current url: " + window.location.href);
 		var cur = window.location.href.match(/(\d+)/g);
+
 		var arr = (document.getElementById("right1").href).match(/(\d+)/g);
 		console.log(document.getElementById("right1").href);
 		slide(arr[0],arr[1]);
+
+		printNavigation("right", cur, arr);
 
 		// replace
 		if (cur[0] == arr[0]) {
@@ -4109,9 +4146,12 @@
 	function navigateUp() {
 		console.log("current url: " + window.location.href);
 		var cur = window.location.href.match(/(\d+)/g);
+
 		var arr = (document.getElementById("header1").href).match(/(\d+)/g);
 		console.log(document.getElementById("header1").href);
 		slide(arr[0],arr[1]);
+
+		printNavigation("up", cur, arr);
 
 		// replace
 		if (cur[0] == arr[0]) {
@@ -4169,9 +4209,13 @@
 	function navigateDown() {
 		console.log("current url: " + window.location.href);
 		var cur = window.location.href.match(/(\d+)/g);
+
+	
 		var arr = (document.getElementById("footer1").href).match(/(\d+)/g);
 		console.log(document.getElementById("footer1").href);
 		slide(arr[0],arr[1]);
+
+		printNavigation("down", cur, arr);
 
 		// replace
 		if (cur[0] == arr[0]) {
@@ -4225,6 +4269,40 @@
 		// 	slide( indexh, indexv + 1 );
 		// }
 
+	}
+
+	function printNavigation(direction, thisSlide, nextSlide) {
+		var secondsNow = Date.now() / 1000;
+		if (thisSlide[0] != 0) {
+			logging += (secondsNow - lastSeconds).toFixed(2) + "\n";
+		} 
+
+		lastSeconds = secondsNow;
+
+		if (thisSlide[0] == 8) {
+			console.save(logging);
+		}
+
+		logging += direction + ", ";
+
+		logging += nextSlide[0] + "-" + nextSlide[1] + ", ";
+
+		var slideType = "";
+
+		if ((TOPICS["t"]).indexOf(nextSlide[0] + "/" + nextSlide[1]) >= 0) {
+			slideType = "t";
+		}
+		if ((TOPICS["v"]).indexOf(nextSlide[0] + "/" + nextSlide[1]) >= 0) {
+			slideType = "v";
+		}
+		if ((TOPICS["b"]).indexOf(nextSlide[0] + "/" + nextSlide[1]) >= 0) {
+			slideType = "b";
+		}
+		if ((TOPICS["p"]).indexOf(nextSlide[0] + "/" + nextSlide[1]) >= 0) {
+			slideType = "p";
+		}
+
+		logging += slideType+ ", " + timeStamp() + ", ";
 	}
 
 	/**
@@ -4786,6 +4864,35 @@
 
 	}
 
+	function timeStamp() {
+	// Create a date object with the current time
+	  var now = new Date();
+
+	// Create an array with the current month, day and time
+	  var date = [ now.getMonth() + 1, now.getDate(), now.getFullYear() ];
+
+	// Create an array with the current hour, minute and second
+	  var time = [ now.getHours(), now.getMinutes(), now.getSeconds() ];
+
+	// Determine AM or PM suffix based on the hour
+	  var suffix = ( time[0] < 12 ) ? "AM" : "PM";
+
+	// Convert hour from military time
+	  time[0] = ( time[0] < 12 ) ? time[0] : time[0] - 12;
+
+	// If hour is 0, set it to 12
+	  time[0] = time[0] || 12;
+
+	// If seconds and minutes are less than 10, add a zero
+	  for ( var i = 1; i < 3; i++ ) {
+	    if ( time[i] < 10 ) {
+	      time[i] = "0" + time[i];
+	    }
+	  }
+
+	// Return the formatted string
+	  return date.join("/") + " " + time.join(":") + " " + suffix;
+	}
 
 	// --------------------------------------------------------------------//
 	// ------------------------ PLAYBACK COMPONENT ------------------------//
