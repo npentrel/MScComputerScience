@@ -30,3 +30,10 @@ photo (based on the viewers' perceptual "definition").
 
 
 I've taken a modular approach -> extensibility
+
+
+- how do I factor in the survey responses? Do I only count the responses of people that answered correctly?
+    - if using photo how many do get it wrong etc. -> confounding effect may be high -> that's why we ask the second question. trying to control as much as possible. result analysis tricky
+        - basic statistics: how many people for each representation
+            - how many ppl get it wrong for each representation. -> question b allows to further scrutinize statistics.
+            - eu citizens possibly more knowledgable

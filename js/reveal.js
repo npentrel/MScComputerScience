@@ -28,16 +28,21 @@
 	// The reveal.js version
 	var VERSION = '3.3.0';
 
-	var TOPICS = {};
-	TOPICS["t"] = ["0/0", "1/3", "2/1", "3/2", "4/3", "5/4", "6/2", "7/4", "8/1"];
-	TOPICS["b"] = ["0/0", "1/1", "2/3", "3/4", "4/2", "5/3", "6/4", "7/1", "8/2"];
-	TOPICS["p"] = ["0/0", "1/4", "2/2", "3/1", "4/4", "5/1", "6/3", "7/2", "8/3"];
-	TOPICS["v"] = ["0/0", "1/2", "2/4", "3/3", "4/1", "5/2", "6/1", "7/3", "8/4"];
+	// starts at 1!!
+	var TOPICS = {}; 
+	TOPICS["t"] = ["0/1", "1/3", "2/1", "3/2", "4/3", "5/4", "6/2", "7/4", "8/1", "9/1", "10/2"];
+	TOPICS["b"] = ["0/2", "1/1", "2/3", "3/4", "4/2", "5/3", "6/4", "7/1", "8/2", "9/2", "10/3"];
+	TOPICS["p"] = ["0/3", "1/4", "2/2", "3/1", "4/4", "5/1", "6/3", "7/2", "8/3", "9/3", "10/4"];
+	TOPICS["v"] = ["0/4", "1/2", "2/4", "3/3", "4/1", "5/2", "6/1", "7/3", "8/4", "9/4", "10/1"];
 
 
 
 	// up, right, bottom, left
 	var NAV_SEQ = {};
+	NAV_SEQ["0/1"] = ["v", "t", "b", "p"];
+	NAV_SEQ["0/2"] = ["t", "p", "v", "b"];
+	NAV_SEQ["0/3"] = ["t", "b", "p", "v"];
+	NAV_SEQ["0/4"] = ["t", "b", "p", "v"];
 	NAV_SEQ["1/1"] = ["v", "t", "b", "p"];
 	NAV_SEQ["1/2"] = ["t", "p", "v", "b"];
 	NAV_SEQ["1/3"] = ["b", "t", "p", "v"];
@@ -70,6 +75,14 @@
 	NAV_SEQ["8/2"] = ["p", "v", "t", "b"];
 	NAV_SEQ["8/3"] = ["b", "t", "p", "v"];
 	NAV_SEQ["8/4"] = ["v", "p", "t", "b"];
+	NAV_SEQ["9/1"] = ["v", "t", "b", "p"];
+	NAV_SEQ["9/2"] = ["t", "p", "v", "b"];
+	NAV_SEQ["9/3"] = ["b", "t", "p", "v"];
+	NAV_SEQ["9/4"] = ["p", "v", "t", "b"];
+	NAV_SEQ["10/1"] = ["v", "t", "b", "p"];
+	NAV_SEQ["10/2"] = ["t", "p", "v", "b"];
+	NAV_SEQ["10/3"] = ["b", "t", "p", "v"];
+	NAV_SEQ["10/4"] = ["p", "v", "t", "b"];
 
 	// save_content_to_file("Hello", "/Users/Naomi/coding/MScComputerScience/data/1.txt");
 
@@ -301,7 +314,7 @@
 	        return;
 	    }
 
-	    if(!filename) filename = 'results.csv'
+	    if(!filename) filename = 'results ' + timeStamp() + '.csv'
 
 	    if(typeof data === "object"){
 	        data = JSON.stringify(data, undefined, 4)
@@ -3985,6 +3998,23 @@
 
 	function changeImagesAndLinks(upN, rightN, downN, leftN, newSeq) {
 
+		if (upN[1] == "/") {
+			upN[0] = "10";
+			upN[1] = "1";
+		}
+		if (rightN[1] == "/") {
+			rightN[0] = "10";
+			rightN[1] = "1";
+		}
+		if (downN[1] == "/") {
+			downN[0] = "10";
+			downN[1] = "1";
+		}
+		if (leftN[1] == "/") {
+			leftN[0] = "10";
+			leftN[1] = "1";
+		}
+
 		var currentSlideSet = smallesSlide(upN, rightN, downN, leftN);
 
 		// change images
@@ -4193,11 +4223,13 @@
 		var downN = nextSlideByType(tnext, vnext, bnext, pnext, newSeq, 2);
 		var leftN = nextSlideByType(tnext, vnext, bnext, pnext, newSeq, 3);
 
-		console.log("NEW");
+		console.log("NEW!!");
 		console.log(upN);
 		console.log(rightN);
 		console.log(downN);
 		console.log(leftN);
+		console.log(newSeq)
+
 
 		changeImagesAndLinks(upN, rightN, downN, leftN, newSeq)
 
@@ -4279,7 +4311,7 @@
 
 		lastSeconds = secondsNow;
 
-		if (thisSlide[0] == 8) {
+		if (thisSlide[0] == 9) {
 			console.save(logging);
 		}
 
