@@ -1,4 +1,115 @@
+TODO: 
 
--> a table in the thesis with some estimations
+Sat, 20th:
+    - HYPOTHESIS (2h)
+        5
+    - visualizations for data (1h)
+    slides: 3
+    - background / Methodology (1h)
+        - analysis techniques
 
-- advertise in facebook groups
+    - statistical analysis (1h)
+        - go through other persons thesis
+
+    - a table in the thesis with some estimations (1h)
+
+J. Goodall. Visualization is better! a comparative evaluation. In Proceedings of
+6th International Workshop on Visualization for Cyber Security, VizSec 2009,
+pages 57–68, October 2009.
+
+
+
+Sun, 21st:
+    - decide whether to buy binder
+
+    - data analysis (2h)
+        - t test
+        - x test
+        - anova
+
+    - background
+        - presentation systems
+            - go through additional papers
+
+SEND TO MIN CHEN
+
+Mon, 22nd:
+
+    - background
+        - evaluation of presentation systems
+            - go through other persons thesis
+            - go through additional papers
+
+    - print
+    - check formatting with uni requirements
+    - proof read - section 1/2/3
+    - proof read - section 4/5/6
+
+Tue, 23rd:
+- conclusion - section 7
+    - not everything gets explored if you choose interactivity
+
+Wed, 24th:
+- print
+- proofread all
+- correct
+
+Thu, 25th: (last day to have bound by reception)
+- print
+- bind
+- hand in
+- freedom
+
+
+latest hand in time: 30th
+
+
+Check out: 
+
+- Matthew Ward, Georges Grinstein, and Daniel Keim. Interactive Data Visualization:
+Foundations, Techniques, and Applications, AK Peters, 2010.
+
+- Alexandru C. Telea, Data Visualization: Principles and Practice, AK Peters, 2008.
+
+- Colin Ware, Information Visualization: Perception for Design, Morgan Kaufman,
+2004.
+
+- Tamara Munzner, Visualization Analysis and Design, AK Peters, 2014.
+
+- Robert Spence, Information Visualization: Design for Interaction, 2nd Ed., Prentice
+Hall, 2006.
+
+- James J. Thomas and Kristin A. Cook (eds.), Illuminating the Path: The Research and
+Development Agenda for Visual Analytics. IEEE Computer Society, 2005. PDF
+Online.
+
+- Charles Hansen and Christopher Johnson, The Visualization Handbook, Academic
+Press, 2005.
+
+- Stuart K. Card, Jock D. Mackinlay, and Ben Shneiderman, Readings in Information
+Visualization: Using Vision to Think, Morgan Kaufmann, 1999.
+
+- Jeffrey Heer, Michael Bostock, and Vadim Ogievetsky, “A Tour through the
+Visualization Zoo”, Communications of the ACM, 53(6):59-67, 2010. PDF Online.
+
+- Edward R. Tufte, The Visual Display of Quantitative Information, 2nd Ed., Graphics
+Press, 2001.
+
+- Stephen Few, Now You See It, Analytics Press, 2009.
+
+- Morris H. DeGroot, Mark J. Schervish, Probability and Statistics, Pearson, 2011.
+
+
+
+\cite{HelwigHauser}\ednote{checkcitation}
+
+Previous Work (EuroVis 2007)
+Visualization
+ - supporting exploration \& analysis
+ - supporting presentation \& communication
+ different goals!
+Visualization for presentation
+getting your message across (cf.: Chinese whispers!)
+two main goals:
+minimize information loss!
+maximize credibility!
