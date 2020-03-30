@@ -205,8 +205,9 @@ def calculate_node(num, typ):
 def drawdatapoint(num):
     data = datapoint(num)
     for i in range(1, len(data)-1):
-        # print "{source: nodes[" + calculate_node(int(data[i][1].replace(" ", "")[0]), data[i][2].replace(" ", "")[0]) + "], target: nodes[" + calculate_node(int(data[i+1][1].replace(" ", "")[0]), data[i+1][2].replace(" ", "")[0]) +"]},"
-        print data[i][1].replace(" ", "")[0] + data[i][2].replace(" ", "")[0] + " to " + data[i+1][1].replace(" ", "")[0] + data[i+1][2].replace(" ", "")[0]
+        print "{source: nodes[" + calculate_node(int(data[i][1].replace(" ", "")[0]), data[i][2].replace(" ", "")[0]) + "], target: nodes[" + calculate_node(int(data[i+1][1].replace(" ", "")[0]), data[i+1][2].replace(" ", "")[0]) +"]},"
+        # print data[i][1].replace(" ", "")[0] + data[i][2].replace(" ", "")[0] + " to " + data[i+1][1].replace(" ", "")[0] + data[i+1][2].replace(" ", "")[0]
+
 def all_drawings():
     for d in range(1, 27):
         drawdatapoint(d)
@@ -248,7 +249,8 @@ def analyze_drawings():
 # parse_next_directions()
 # parse_average_timing_per_slide_type()
 
-# all_drawings()
-analyze_drawings()
+#all_drawings()
+# analyze_drawings()
 
+drawdatapoint(31)
 
